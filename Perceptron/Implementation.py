@@ -5,6 +5,8 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
+# importing animated_plot function from locally defined script animation.py
+from animation import animated_plot
 
 # Loading Data
 breast_cancer = sklearn.datasets.load_breast_cancer()
@@ -56,6 +58,8 @@ class Perceptron:
 		accuracy = {}
 		max_accuracy = 0
 
+		# 5 list storing all values of w, for plotting
+		w_data = []
 
 		for iter in range(epochs):
 			for x, y in zip(X, Y):
@@ -67,6 +71,7 @@ class Perceptron:
 				elif Y_predicted == 1 and y == 0:
 					self.w = self.w - lr*x
 					self.b = self.b - lr*1
+			w_data.append(self.w)
 
 			accuracy[iter] = accuracy_score(self.predict(X), Y)
 
@@ -84,9 +89,12 @@ class Perceptron:
 		plt.plot(list(accuracy.values()))
 		plt.ylim([0,1])
 		plt.show()
+		plt.plot(self.w)
+		plt.show()
 		max_accuracy_epoch = (max(accuracy, key=accuracy.get))
 		print(f"Max at {max_accuracy_epoch} value is {accuracy[max_accuracy_epoch]}")
 
+		animated_plot(X_train, np.array(w_data))
 
 """
 Note ::
@@ -96,5 +104,8 @@ The loss tends to oscillate around a local minima, without converging at the low
 
 # Creating an instance of Perceptron Class
 perceptron = Perceptron()
-perceptron.fit(X_train, Y_train, 100, .0001)
+perceptron.fit(X_train, Y_train, 1000, 0.01)
+
+
+
 
