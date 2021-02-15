@@ -47,7 +47,8 @@ class Perceptron:
 
 	# 2 Introduction of 1st hyperparameter "Epoch", whereas w and x are parameters
 	# 2 Epoch : A single pass over all the data points + labels while training the model.
-	def fit(self, X, Y, epochs = 1):
+	# 4 Introduction of 2nd Hyper-parameter "Learning Rate"
+	def fit(self, X, Y, epochs = 1, lr = 1):
 		accuracy = {}
 		self.w = np.ones(X.shape[1])
 		self.b = 0
@@ -61,11 +62,11 @@ class Perceptron:
 				Y_predicted = self.model(x)
 				if Y_predicted == 0 and y == 1:
 					# 4 Introduction of 2nd Hyper-parameter "Learning Rate"
-					self.w = self.w + x
-					self.b = self.b + 1
+					self.w = self.w + lr*x
+					self.b = self.b + lr*1
 				elif Y_predicted == 1 and y == 0:
-					self.w = self.w - x
-					self.b = self.b - 1
+					self.w = self.w - lr*x
+					self.b = self.b - lr*1
 
 			accuracy[iter] = accuracy_score(self.predict(X), Y)
 
@@ -95,4 +96,5 @@ The loss tends to oscillate around a local minima, without converging at the low
 
 # Creating an instance of Perceptron Class
 perceptron = Perceptron()
-perceptron.fit(X_train, Y_train, 100)
+perceptron.fit(X_train, Y_train, 100, .0001)
+
