@@ -72,6 +72,14 @@ class Perceptron:
 			if accuracy[iter] > max_accuracy:
 				max_accuracy = accuracy[iter]
 
+				# 3 Introduction Of Checkpoints
+				# Stores the best prediction , to test upon the model
+				chkpt_w = self.w
+				chkpt_b = self.b
+
+		self.w = chkpt_w
+		self.b = chkpt_b
+
 		plt.plot(list(accuracy.values()))
 		plt.ylim([0,1])
 		plt.show()
